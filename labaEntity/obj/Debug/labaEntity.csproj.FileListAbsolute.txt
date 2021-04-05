@@ -1,0 +1,16 @@
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\labaEntity.exe.config
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\labaEntity.exe
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\labaEntity.pdb
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\EntityFramework.dll
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\EntityFramework.xml
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Properties.Resources.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.csproj.GenerateResource.cache
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.csproj.CoreCompileInputs.cache
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.csproj.CopyComplete
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.exe
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.pdb
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Form1.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Form2.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Form3.resources
