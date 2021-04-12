@@ -13,30 +13,16 @@ namespace labaEntity
 {
     public partial class Form1 : Form
     {
-        Form2 userform;
         public Form1()
         {
             InitializeComponent();
         }
 
-        public string GetHashString(string s)
-        {
-            byte[] bytes = Encoding.Unicode.GetBytes(s);
-
-            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
-            byte[] byteHash = CSP.ComputeHash(bytes);
-            string hash = "";
-            foreach (byte b in byteHash)
-            {
-                hash += string.Format("{0:x2}", b);
-            }
-            return hash;
-
-        }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Form2 form2 = new Form2();
+            form2.form1 = this;
             form2.Show();
             this.Hide();
         }
@@ -44,26 +30,33 @@ namespace labaEntity
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Form3 form3 = new Form3();
+            form3.form1 = this;
             form3.Show();
             this.Hide();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EnterButtton_Click(object sender, EventArgs e)
         {
             using (UserContainer db = new UserContainer())
             {
                 foreach (User user in db.UserSet)
                 {
-                    if (textBox1.Text == user.Login && this.GetHashString(textBox2.Text) == user.Password)
+                    if (textBox1.Text == user.Login && CryptoService.GetHashString(textBox2.Text) == user.Password)
                     {
-                        MessageBox.Show("Вход успешен!");
+                        // Здесь осуществляется вход в новую прогу (для 6 лабы)
+                        Form4 userForm = new Form4();
+                        userForm.labelLogin.Text = user.Login;
+                        userForm.Show();
+                        userForm.form1 = this;
+                        this.Hide();
+                        return;
                     }
-                    Form2 userForm = new Form2();
-                    userForm.label1.Text = user.Login;
-                    userForm.Show();
-                    userForm.form1 = this;
-                    this.Visible = false;
-                    return;
+                    
                 }
             }
             MessageBox.Show("Логин или пароль указан неверно!");

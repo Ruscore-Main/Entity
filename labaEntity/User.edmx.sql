@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/02/2021 09:05:28
--- Generated from EDMX file: C:\Users\oobit\source\repos\labaEntity\labaEntity\User.edmx
+-- Date Created: 04/12/2021 12:13:05
+-- Generated from EDMX file: D:\OAIP\Entity\labaEntity\User.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\OOBIT\DOCUMENTS\USERDB.MDF];
+USE [D:\OAIP\ENTITY\LABABD.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -22,6 +22,9 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables

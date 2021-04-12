@@ -45,7 +45,7 @@ namespace labaEntity
             this.label3.Location = new System.Drawing.Point(71, 189);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 25);
+            this.label3.Size = new System.Drawing.Size(67, 20);
             this.label3.TabIndex = 15;
             this.label3.Text = "Пароль";
             // 
@@ -55,7 +55,7 @@ namespace labaEntity
             this.label2.Location = new System.Drawing.Point(71, 88);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 25);
+            this.label2.Size = new System.Drawing.Size(55, 20);
             this.label2.TabIndex = 14;
             this.label2.Text = "Логин";
             // 
@@ -76,7 +76,7 @@ namespace labaEntity
             this.textBoxPass.Location = new System.Drawing.Point(76, 222);
             this.textBoxPass.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.textBoxPass.Name = "textBoxPass";
-            this.textBoxPass.Size = new System.Drawing.Size(442, 30);
+            this.textBoxPass.Size = new System.Drawing.Size(442, 26);
             this.textBoxPass.TabIndex = 10;
             // 
             // textBoxLog
@@ -85,7 +85,7 @@ namespace labaEntity
             this.textBoxLog.Location = new System.Drawing.Point(76, 121);
             this.textBoxLog.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.Size = new System.Drawing.Size(442, 30);
+            this.textBoxLog.Size = new System.Drawing.Size(442, 26);
             this.textBoxLog.TabIndex = 9;
             // 
             // label1
@@ -95,7 +95,7 @@ namespace labaEntity
             this.label1.Location = new System.Drawing.Point(218, 33);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 29);
+            this.label1.Size = new System.Drawing.Size(142, 25);
             this.label1.TabIndex = 8;
             this.label1.Text = "Регистрация";
             // 
@@ -105,7 +105,7 @@ namespace labaEntity
             this.label4.Location = new System.Drawing.Point(69, 281);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 25);
+            this.label4.Size = new System.Drawing.Size(57, 20);
             this.label4.TabIndex = 17;
             this.label4.Text = "Почта";
             // 
@@ -115,12 +115,12 @@ namespace labaEntity
             this.textBoxEmail.Location = new System.Drawing.Point(74, 314);
             this.textBoxEmail.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(442, 30);
+            this.textBoxEmail.Size = new System.Drawing.Size(442, 26);
             this.textBoxEmail.TabIndex = 16;
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 454);
             this.Controls.Add(this.label4);
@@ -135,6 +135,7 @@ namespace labaEntity
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form2";
             this.Text = "Form2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
