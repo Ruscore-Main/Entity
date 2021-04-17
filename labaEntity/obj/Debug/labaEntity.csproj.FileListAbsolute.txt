@@ -32,3 +32,6 @@ D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.csproj.CopyComplete
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.exe
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.pdb
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.Form4.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Form4.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.csprojAssemblyReference.cache
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.AdminForm.resources

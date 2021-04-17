@@ -21,7 +21,7 @@ namespace labaEntity
 
         private void Form4_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void Form4_FormClosing(object sender, FormClosingEventArgs e)

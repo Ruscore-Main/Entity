@@ -37,7 +37,7 @@ namespace labaEntity
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            textBox2.PasswordChar = '*';
         }
 
         private void EnterButtton_Click(object sender, EventArgs e)
@@ -48,11 +48,23 @@ namespace labaEntity
                 {
                     if (textBox1.Text == user.Login && CryptoService.GetHashString(textBox2.Text) == user.Password)
                     {
+                        if (user.Role == "Admin")
+                        {
+                            AdminForm adminForm = new AdminForm();
+                            adminForm.form1 = this;
+                            adminForm.label1.Text = user.Login;
+                            adminForm.Show();
+                        }
+                        else
+                        {
+                            Form4 userForm = new Form4();
+                            userForm.labelLogin.Text = user.Login;
+
+                            userForm.Show();
+                            userForm.form1 = this;
+                        }
                         // Здесь осуществляется вход в новую прогу (для 6 лабы)
-                        Form4 userForm = new Form4();
-                        userForm.labelLogin.Text = user.Login;
-                        userForm.Show();
-                        userForm.form1 = this;
+                       
                         this.Hide();
                         return;
                     }

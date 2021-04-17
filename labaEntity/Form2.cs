@@ -14,7 +14,8 @@ namespace labaEntity
     public partial class Form2 : Form
     {
         public Form1 form1;
-
+        public AdminForm adminForm;
+        public bool isAdmin = false;
         public Form2()
         {
             InitializeComponent();
@@ -29,17 +30,27 @@ namespace labaEntity
         {
             using (UserContainer db = new UserContainer())
             {
-                User user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User"};
+                User user = null;
+                if (isAdmin)
+                {
+                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "Admin" };
+                    adminForm.Show();
+                }
+                else
+                {
+                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User" };
+                    form1.Show();
+                }
                 db.UserSet.Add(user);
                 db.SaveChanges();
             }
-            form1.Show();
+            
             this.Close();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            form1.Show();
+            if(!isAdmin) form1.Show();
         }
     }
 }
