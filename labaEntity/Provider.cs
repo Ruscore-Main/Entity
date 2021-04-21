@@ -12,23 +12,18 @@ namespace labaEntity
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Provider
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Provider()
         {
-            this.basket = new HashSet<product>();
+            this.product = new HashSet<product>();
         }
     
         public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> Balance { get; set; }
+        public string NameProvider { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<product> basket { get; set; }
-        public virtual Bonus Bonus { get; set; }
+        public virtual ICollection<product> product { get; set; }
     }
 }
