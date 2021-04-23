@@ -22,6 +22,7 @@ namespace labaEntity
         {
             Form2 adminForm = new Form2();
             adminForm.isAdmin = true;
+            adminForm.openedWithAdmin = true;
             adminForm.adminForm = this;
             this.Hide();
             adminForm.Show();
@@ -35,6 +36,22 @@ namespace labaEntity
         private void AdminForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form2 userForm = new Form2();
+            userForm.openedWithAdmin = true;
+            userForm.adminForm = this;
+            this.Hide();
+            userForm.Show();
+        }
+
+        // Удаление / Изменение юзера
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DeleteOrChangeForm deleteOrChangeForm = new DeleteOrChangeForm();
+            deleteOrChangeForm.Show();
         }
     }
 }

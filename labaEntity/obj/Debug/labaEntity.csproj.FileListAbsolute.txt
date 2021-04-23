@@ -36,3 +36,7 @@ C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.Form4.res
 C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.csprojAssemblyReference.cache
 C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.AdminForm.resources
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.AdminForm.resources
+D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.BonusForm.resources
+D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.DeleteOrChangeForm.resources
+D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.ChangeUser.resources
+D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.RefillBalanceForm.resources

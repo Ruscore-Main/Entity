@@ -12,6 +12,8 @@ namespace labaEntity
 {
     public partial class Form4 : Form
     {
+        // Сам юзер
+        public User currentUser;
         public Form1 form1;
 
         public Form4()
@@ -21,12 +23,45 @@ namespace labaEntity
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            
+            labelBalance.Text = $"Баланс: {currentUser.Balance}";
         }
 
         private void Form4_FormClosing(object sender, FormClosingEventArgs e)
         {
             form1.Show();
+        }
+
+        private void linkLabelBonus_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // бонусная программа
+
+            using (UserContainer db = new UserContainer())
+            {
+                foreach (User user in db.UserSet)
+                {
+                    if (user.Login == currentUser.Login && user.Password == currentUser.Password)
+                    {
+                        BonusForm bonusForm = new BonusForm();
+                        bonusForm.form4 = this;
+                        bonusForm.BonusNameLabel.Text = $"Имя: {user.Login}";
+                        bonusForm.BonusAmount.Text = $"Количество бонусов: {user.Bonus.AmountBonus}";
+                        bonusForm.Show();
+                        this.Hide();
+                    }
+                }
+            }
+                    
+
+        }
+
+        // Пополнение баланса
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RefillBalanceForm refillBalanceForm = new RefillBalanceForm();
+            refillBalanceForm.userForm = this;
+            refillBalanceForm.currentUser = currentUser;
+            refillBalanceForm.Show();
+            this.Hide();
         }
     }
 }

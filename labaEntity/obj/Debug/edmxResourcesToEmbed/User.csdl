@@ -2,6 +2,21 @@
 <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="User" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
   <EntityContainer Name="UserContainer" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="UserSet" EntityType="User.User" />
+    <EntitySet Name="productSet" EntityType="User.product" />
+    <EntitySet Name="ProviderSet" EntityType="User.Provider" />
+    <AssociationSet Name="productProvider" Association="User.productProvider">
+      <End Role="product" EntitySet="productSet" />
+      <End Role="Provider" EntitySet="ProviderSet" />
+    </AssociationSet>
+    <AssociationSet Name="Userproduct" Association="User.Userproduct">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="product" EntitySet="productSet" />
+    </AssociationSet>
+    <EntitySet Name="BonusSet" EntityType="User.Bonus" />
+    <AssociationSet Name="BonusUser" Association="User.BonusUser">
+      <End Role="Bonus" EntitySet="BonusSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="User">
     <Key>
@@ -12,5 +27,55 @@
     <Property Name="Password" Type="String" Nullable="false" />
     <Property Name="Role" Type="String" Nullable="false" />
     <Property Name="Email" Type="String" Nullable="false" />
+    <Property Name="Balance" Type="Int32" Nullable="true" />
+    <NavigationProperty Name="basket" Relationship="User.Userproduct" FromRole="User" ToRole="product" />
+    <NavigationProperty Name="Bonus" Relationship="User.BonusUser" FromRole="User" ToRole="Bonus" />
   </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="PhotoPath" Type="String" Nullable="false" />
+    <NavigationProperty Name="Provider" Relationship="User.productProvider" FromRole="product" ToRole="Provider" />
+    <Property Name="ProviderId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameProvider" Type="String" Nullable="false" />
+    <NavigationProperty Name="product" Relationship="User.productProvider" FromRole="Provider" ToRole="product" />
+  </EntityType>
+  <Association Name="productProvider">
+    <End Type="User.product" Role="product" Multiplicity="*" />
+    <End Type="User.Provider" Role="Provider" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Userproduct">
+    <End Type="User.User" Role="User" Multiplicity="0..1" />
+    <End Type="User.product" Role="product" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Bonus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AmountBonus" Type="String" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="User.BonusUser" FromRole="Bonus" ToRole="User" />
+  </EntityType>
+  <Association Name="BonusUser">
+    <End Type="User.Bonus" Role="Bonus" Multiplicity="0..1" />
+    <End Type="User.User" Role="User" Multiplicity="1" />
+  </Association>
 </Schema>

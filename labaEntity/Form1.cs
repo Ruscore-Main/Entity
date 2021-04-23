@@ -59,7 +59,7 @@ namespace labaEntity
                         {
                             Form4 userForm = new Form4();
                             userForm.labelLogin.Text = user.Login;
-
+                            userForm.currentUser = user;
                             userForm.Show();
                             userForm.form1 = this;
                         }

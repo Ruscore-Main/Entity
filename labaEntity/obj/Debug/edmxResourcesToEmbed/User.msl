@@ -9,8 +9,53 @@
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Role" ColumnName="Role" />
           <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="productSet">
+      <EntityTypeMapping TypeName="IsTypeOf(User.product)">
+        <MappingFragment StoreEntitySet="productSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+          <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProviderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(User.Provider)">
+        <MappingFragment StoreEntitySet="ProviderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NameProvider" ColumnName="NameProvider" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BonusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(User.Bonus)">
+        <MappingFragment StoreEntitySet="BonusSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AmountBonus" ColumnName="AmountBonus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="Userproduct" TypeName="User.Userproduct" StoreEntitySet="productSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Userproduct_product_Id" />
+      </EndProperty>
+      <EndProperty Name="product">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Userproduct_product_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="BonusUser" TypeName="User.BonusUser" StoreEntitySet="BonusSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Bonus">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

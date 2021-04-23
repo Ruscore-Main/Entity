@@ -16,6 +16,7 @@ namespace labaEntity
         public Form1 form1;
         public AdminForm adminForm;
         public bool isAdmin = false;
+        public bool openedWithAdmin = false;
         public Form2()
         {
             InitializeComponent();
@@ -33,16 +34,25 @@ namespace labaEntity
                 User user = null;
                 if (isAdmin)
                 {
-                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "Admin" };
+                    Bonus bonus = new Bonus() { AmountBonus = "0" };
+                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "Admin", Bonus = bonus, Balance = 0 };
+                    adminForm.Show();
+                }
+                else if (openedWithAdmin)
+                {
+                    Bonus bonus = new Bonus() { AmountBonus = "0" };
+                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User", Bonus = bonus, Balance = 0 };
                     adminForm.Show();
                 }
                 else
                 {
-                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User" };
+                    Bonus bonus = new Bonus() { AmountBonus = "0" };
+                    user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User", Bonus = bonus, Balance = 0 };
                     form1.Show();
                 }
                 db.UserSet.Add(user);
                 db.SaveChanges();
+                
             }
             
             this.Close();
@@ -50,7 +60,7 @@ namespace labaEntity
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!isAdmin) form1.Show();
+            if(!openedWithAdmin) form1.Show();
         }
     }
 }

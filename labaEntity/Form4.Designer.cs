@@ -30,39 +30,61 @@ namespace labaEntity
         private void InitializeComponent()
         {
             this.labelLogin = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.linkLabelBonus = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.labelBalance = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelLogin
             // 
             this.labelLogin.AutoSize = true;
             this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLogin.Location = new System.Drawing.Point(268, 52);
-            this.labelLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelLogin.Location = new System.Drawing.Point(194, 9);
             this.labelLogin.Name = "labelLogin";
-            this.labelLogin.Size = new System.Drawing.Size(109, 39);
+            this.labelLogin.Size = new System.Drawing.Size(86, 31);
             this.labelLogin.TabIndex = 0;
             this.labelLogin.Text = "label1";
             // 
-            // label2
+            // linkLabelBonus
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(155, 149);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(316, 39);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "вы успешно вошли";
+            this.linkLabelBonus.AutoSize = true;
+            this.linkLabelBonus.Location = new System.Drawing.Point(27, 164);
+            this.linkLabelBonus.Name = "linkLabelBonus";
+            this.linkLabelBonus.Size = new System.Drawing.Size(69, 13);
+            this.linkLabelBonus.TabIndex = 2;
+            this.linkLabelBonus.TabStop = true;
+            this.linkLabelBonus.Text = "Мои Бонусы";
+            this.linkLabelBonus.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelBonus_LinkClicked);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(102, 164);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(114, 13);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Пополнение баланса";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // labelBalance
+            // 
+            this.labelBalance.AutoSize = true;
+            this.labelBalance.Location = new System.Drawing.Point(222, 164);
+            this.labelBalance.Name = "labelBalance";
+            this.labelBalance.Size = new System.Drawing.Size(47, 13);
+            this.labelBalance.TabIndex = 4;
+            this.labelBalance.Text = "Баланс:";
             // 
             // Form4
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 273);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(471, 222);
+            this.Controls.Add(this.labelBalance);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.linkLabelBonus);
             this.Controls.Add(this.labelLogin);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form4";
             this.Text = "User";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
@@ -75,6 +97,8 @@ namespace labaEntity
         #endregion
 
         public System.Windows.Forms.Label labelLogin;
-        public System.Windows.Forms.Label label2;
+        private System.Windows.Forms.LinkLabel linkLabelBonus;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        public System.Windows.Forms.Label labelBalance;
     }
 }
