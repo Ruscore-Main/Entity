@@ -17,7 +17,7 @@ namespace labaEntity
         public int Id { get; set; }
         public int Price { get; set; }
         public string Name { get; set; }
-        public string PhotoPath { get; set; }
+        public byte[] PhotoPath { get; set; }
         public int ProviderId { get; set; }
     
         public virtual Provider Provider { get; set; }

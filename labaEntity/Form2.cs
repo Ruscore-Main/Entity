@@ -61,6 +61,10 @@ namespace labaEntity
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(!openedWithAdmin) form1.Show();
+            else
+            {
+                adminForm.Show();
+            }
         }
     }
 }

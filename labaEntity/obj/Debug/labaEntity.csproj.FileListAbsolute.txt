@@ -40,3 +40,12 @@ D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.BonusForm.resources
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.DeleteOrChangeForm.resources
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.ChangeUser.resources
 D:\OAIP\Entity\labaEntity\obj\Debug\labaEntity.RefillBalanceForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.BonusForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.ChangeUser.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.DeleteOrChangeForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.RefillBalanceForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.AddProductForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.ChangeProductForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.DeleteOrChangeProductForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.BasketForm.resources
+C:\Users\oobit\source\repos\labaEntity\labaEntity\obj\Debug\labaEntity.AllProducts.resources

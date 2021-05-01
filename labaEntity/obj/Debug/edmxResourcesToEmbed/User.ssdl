@@ -1,23 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="User.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="UserStoreContainer">
-    <EntitySet Name="UserSet" EntityType="User.Store.UserSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="productSet" EntityType="User.Store.productSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProviderSet" EntityType="User.Store.ProviderSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BonusSet" EntityType="User.Store.BonusSet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="productProvider" Association="User.Store.productProvider">
-      <End Role="product" EntitySet="productSet" />
-      <End Role="Provider" EntitySet="ProviderSet" />
-    </AssociationSet>
-    <AssociationSet Name="Userproduct" Association="User.Store.Userproduct">
-      <End Role="User" EntitySet="UserSet" />
-      <End Role="product" EntitySet="productSet" />
-    </AssociationSet>
-    <AssociationSet Name="BonusUser" Association="User.Store.BonusUser">
-      <End Role="Bonus" EntitySet="BonusSet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-  </EntityContainer>
+<Schema Namespace="User.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BonusSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AmountBonus" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="productSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PhotoPath" Type="image" Nullable="false" />
+    <Property Name="ProviderId" Type="int" Nullable="false" />
+    <Property Name="Userproduct_product_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="ProviderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameProvider" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <EntityType Name="UserSet">
     <Key>
       <PropertyRef Name="Id" />
@@ -27,68 +35,60 @@
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Balance" Type="int" Nullable="true" />
+    <Property Name="Balance" Type="int" />
   </EntityType>
-  <EntityType Name="productSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Price" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="PhotoPath" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ProviderId" Type="int" Nullable="false" />
-    <Property Name="Userproduct_product_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="ProviderSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="NameProvider" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="BonusSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AmountBonus" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="User_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="productProvider">
-    <End Role="product" Type="User.Store.productSet" Multiplicity="*" />
-    <End Role="Provider" Type="User.Store.ProviderSet" Multiplicity="1" />
+  <Association Name="FK_BonusUser">
+    <End Role="UserSet" Type="Self.UserSet" Multiplicity="1" />
+    <End Role="BonusSet" Type="Self.BonusSet" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Provider">
+      <Principal Role="UserSet">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="product">
-        <PropertyRef Name="ProviderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="Userproduct">
-    <End Role="User" Type="User.Store.UserSet" Multiplicity="0..1" />
-    <End Role="product" Type="User.Store.productSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="product">
-        <PropertyRef Name="Userproduct_product_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BonusUser">
-    <End Role="Bonus" Type="User.Store.BonusSet" Multiplicity="*" />
-    <End Role="User" Type="User.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Bonus">
+      <Dependent Role="BonusSet">
         <PropertyRef Name="User_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_productProvider">
+    <End Role="ProviderSet" Type="Self.ProviderSet" Multiplicity="1" />
+    <End Role="productSet" Type="Self.productSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProviderSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="productSet">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Userproduct">
+    <End Role="UserSet" Type="Self.UserSet" Multiplicity="0..1" />
+    <End Role="productSet" Type="Self.productSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="productSet">
+        <PropertyRef Name="Userproduct_product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UserStoreContainer">
+    <EntitySet Name="BonusSet" EntityType="Self.BonusSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="productSet" EntityType="Self.productSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProviderSet" EntityType="Self.ProviderSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSet" EntityType="Self.UserSet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BonusUser" Association="Self.FK_BonusUser">
+      <End Role="UserSet" EntitySet="UserSet" />
+      <End Role="BonusSet" EntitySet="BonusSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_productProvider" Association="Self.FK_productProvider">
+      <End Role="ProviderSet" EntitySet="ProviderSet" />
+      <End Role="productSet" EntitySet="productSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Userproduct" Association="Self.FK_Userproduct">
+      <End Role="UserSet" EntitySet="UserSet" />
+      <End Role="productSet" EntitySet="productSet" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>

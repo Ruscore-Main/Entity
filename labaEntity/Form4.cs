@@ -15,6 +15,7 @@ namespace labaEntity
         // Сам юзер
         public User currentUser;
         public Form1 form1;
+        public int basketSum = 0;
 
         public Form4()
         {
@@ -62,6 +63,26 @@ namespace labaEntity
             refillBalanceForm.currentUser = currentUser;
             refillBalanceForm.Show();
             this.Hide();
+        }
+
+        private void changeButton_Click(object sender, EventArgs e)
+        {
+            AllProducts allProductsForm = new AllProducts();
+            allProductsForm.userForm = this;
+            allProductsForm.currentUser = currentUser;
+            allProductsForm.Show();
+            this.Hide();
+        }
+
+        // Корзина
+        private void button1_Click(object sender, EventArgs e)
+        {
+            BasketForm basketForm = new BasketForm();
+            basketForm.userForm = this;
+            basketForm.currentUser = currentUser;
+            basketForm.Show();
+            this.Hide();
+            
         }
     }
 }

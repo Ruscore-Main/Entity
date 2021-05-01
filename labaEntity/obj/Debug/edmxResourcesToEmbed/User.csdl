@@ -23,10 +23,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Login" Type="String" Nullable="false" />
-    <Property Name="Password" Type="String" Nullable="false" />
-    <Property Name="Role" Type="String" Nullable="false" />
-    <Property Name="Email" Type="String" Nullable="false" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Balance" Type="Int32" Nullable="true" />
     <NavigationProperty Name="basket" Relationship="User.Userproduct" FromRole="User" ToRole="product" />
     <NavigationProperty Name="Bonus" Relationship="User.BonusUser" FromRole="User" ToRole="Bonus" />
@@ -37,8 +37,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Price" Type="Int32" Nullable="false" />
-    <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="PhotoPath" Type="String" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="PhotoPath" Type="Binary" Nullable="false" />
     <NavigationProperty Name="Provider" Relationship="User.productProvider" FromRole="product" ToRole="Provider" />
     <Property Name="ProviderId" Type="Int32" Nullable="false" />
   </EntityType>
@@ -47,7 +47,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="NameProvider" Type="String" Nullable="false" />
+    <Property Name="NameProvider" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="product" Relationship="User.productProvider" FromRole="Provider" ToRole="product" />
   </EntityType>
   <Association Name="productProvider">
@@ -71,7 +71,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="AmountBonus" Type="String" Nullable="false" />
+    <Property Name="AmountBonus" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="User" Relationship="User.BonusUser" FromRole="Bonus" ToRole="User" />
   </EntityType>
   <Association Name="BonusUser">

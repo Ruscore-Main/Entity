@@ -53,5 +53,23 @@ namespace labaEntity
             DeleteOrChangeForm deleteOrChangeForm = new DeleteOrChangeForm();
             deleteOrChangeForm.Show();
         }
+
+        // Добавлени товара
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AddProductForm addProductForm = new AddProductForm();
+            addProductForm.adminForm = this;
+            addProductForm.Show();
+            this.Hide();
+        }
+
+        // Удаление / Изменение товара
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DeleteOrChangeProductForm deleteOrChangeProductForm = new DeleteOrChangeProductForm();
+            deleteOrChangeProductForm.adminForm = this;
+            deleteOrChangeProductForm.Show();
+            this.Hide();
+        }
     }
 }

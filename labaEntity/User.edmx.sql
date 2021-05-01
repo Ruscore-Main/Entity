@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/21/2021 21:46:55
--- Generated from EDMX file: D:\OAIP\Entity\labaEntity\User.edmx
+-- Date Created: 04/29/2021 22:53:29
+-- Generated from EDMX file: C:\Users\oobit\source\repos\labaEntity\labaEntity\User.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\RUSLAN\DOCUMENTS\ENTITYBD.MDF];
+USE [C:\USERS\OOBIT\DOCUMENTS\LABAEF.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,6 +17,15 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_productProvider]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[productSet] DROP CONSTRAINT [FK_productProvider];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Userproduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[productSet] DROP CONSTRAINT [FK_Userproduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BonusUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BonusSet] DROP CONSTRAINT [FK_BonusUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -24,6 +33,15 @@ GO
 
 IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UserSet];
+GO
+IF OBJECT_ID(N'[dbo].[productSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[productSet];
+GO
+IF OBJECT_ID(N'[dbo].[ProviderSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProviderSet];
+GO
+IF OBJECT_ID(N'[dbo].[BonusSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BonusSet];
 GO
 
 -- --------------------------------------------------
