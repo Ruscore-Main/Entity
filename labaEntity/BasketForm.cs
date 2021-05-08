@@ -50,38 +50,46 @@ namespace labaEntity
         // Оплата
         private void button1_Click(object sender, EventArgs e)
         {
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (User user in db.UserSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (user.Id == currentUser.Id)
+                    foreach (User user in db.UserSet)
                     {
-                        // Если хватает денег
-                        if (user.Balance >= sum)
+                        if (user.Id == currentUser.Id)
                         {
-                            user.Balance -= sum - int.Parse(user.Bonus.AmountBonus);
-                            foreach (product product in user.basket)
+                            // Если хватает денег
+                            if (user.Balance >= sum)
                             {
-                                listBox1.Items.Remove(product);
+                                user.Balance -= sum - int.Parse(user.Bonus.AmountBonus);
+                                foreach (product product in user.basket)
+                                {
+                                    listBox1.Items.Remove(product);
+                                }
+                                string date = DateTime.Now.ToString();
+                                user.Bonus.AmountBonus = Convert.ToString(Math.Floor(Convert.ToDouble(sum / 4)));
+                                MessageBox.Show($"Товар оплачен {date}\nВаш текущий баланс: {user.Balance}\nВаш текущий баланс бонусов: {user.Bonus.AmountBonus}", "ЧЕК");
+                                user.basket.Clear();
+                                sum = 0;
+                                listBox1.Items.Clear();
+                                labelSum.Text = $"Сумма: {sum}";
+
+                                break;
                             }
-                            user.Bonus.AmountBonus = Convert.ToString(Math.Floor(Convert.ToDouble(sum / 4)));
-                            MessageBox.Show($"Товар оплачен, ваш текущий баланс: {user.Balance}\nВаш текущий баланс бонусов: {user.Bonus.AmountBonus}");
-                            user.basket.Clear();
-                            sum = 0;
-                            listBox1.Items.Clear();
-                            labelSum.Text = $"Сумма: {sum}";
+                            else
+                            {
+                                MessageBox.Show("Недостаточно средств на счету!");
+                            }
 
-                            break;
                         }
-                        else
-                        {
-                            MessageBox.Show("Недостаточно средств на счету!");
-                        }
-                        
                     }
-                }
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("При оплате возникла ошибка");
             }
         }
 
@@ -89,27 +97,34 @@ namespace labaEntity
         private void button2_Click(object sender, EventArgs e)
         {
             
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (User user in db.UserSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (user.Id == currentUser.Id)
+                    foreach (User user in db.UserSet)
                     {
-                        foreach (product product in db.productSet)
+                        if (user.Id == currentUser.Id)
                         {
-                            if (product.Name == Convert.ToString(listBox1.SelectedItem))
+                            foreach (product product in db.productSet)
                             {
-                                user.basket.Remove(product);
-                                sum -= product.Price;
-                                break;
+                                if (product.Name == Convert.ToString(listBox1.SelectedItem))
+                                {
+                                    user.basket.Remove(product);
+                                    sum -= product.Price;
+                                    break;
+                                }
                             }
                         }
                     }
+                    labelSum.Text = $"Сумма: {sum}";
+                    MessageBox.Show($"Товар {listBox1.SelectedItem} был удален");
+                    listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+                    db.SaveChanges();
                 }
-                labelSum.Text = $"Сумма: {sum}";
-                MessageBox.Show($"Товар {listBox1.SelectedItem} был удален");
-                listBox1.Items.RemoveAt(listBox1.SelectedIndex);
-                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("При удалении товара произошла ошибка");
             }
         }
     }

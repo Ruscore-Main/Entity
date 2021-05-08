@@ -27,19 +27,26 @@ namespace labaEntity
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (product product in db.productSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (product.Id == currentProduct.Id)
+                    foreach (product product in db.productSet)
                     {
-                        product.Name= textBoxName.Text;
-                        product.Price = Convert.ToInt32(textBoxPrice.Text);
-                        break;
+                        if (product.Id == currentProduct.Id)
+                        {
+                            product.Name = textBoxName.Text;
+                            product.Price = Convert.ToInt32(textBoxPrice.Text);
+                            break;
+                        }
                     }
+                    db.SaveChanges();
+                    this.Close();
                 }
-                db.SaveChanges();
-                this.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка, возможно, не все поля заполнены правильно");
             }
         }
     }

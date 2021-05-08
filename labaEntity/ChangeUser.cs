@@ -33,20 +33,27 @@ namespace labaEntity
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (User user in db.UserSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (user.Login == currentUser.Login && user.Email == currentUser.Email)
+                    foreach (User user in db.UserSet)
                     {
-                        user.Login = textBoxLogin.Text;
-                        user.Email = textBoxEmail.Text;
-                        user.Role = textBoxRole.Text;
-                        break;
+                        if (user.Login == currentUser.Login && user.Email == currentUser.Email)
+                        {
+                            user.Login = textBoxLogin.Text;
+                            user.Email = textBoxEmail.Text;
+                            user.Role = textBoxRole.Text;
+                            break;
+                        }
                     }
+                    db.SaveChanges();
+                    this.Close();
                 }
-                db.SaveChanges();
-                this.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка, возможно не все поля заполнены правильно");
             }
         }
     }

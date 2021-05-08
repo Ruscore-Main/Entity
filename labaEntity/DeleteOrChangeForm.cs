@@ -30,18 +30,25 @@ namespace labaEntity
         private void findButton_Click(object sender, EventArgs e)
         {
             bool finded = false;
-            using (UserContainer db = new UserContainer())
+            try
             {
-                
-                foreach (User user in db.UserSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (user.Login.ToLower() == textBoxLogin.Text.ToLower())
-                    {
-                        listBox1.Items.Add($"{user.Login} {user.Email}");
-                        finded = true;
-                    }
-                }
 
+                    foreach (User user in db.UserSet)
+                    {
+                        if (user.Login.ToLower() == textBoxLogin.Text.ToLower())
+                        {
+                            listBox1.Items.Add($"{user.Login} {user.Email}");
+                            finded = true;
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка, возможно, не все поля были правильно заполнены");
             }
             if (finded)
             {
@@ -58,25 +65,32 @@ namespace labaEntity
         // Удаление юзера
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            selectedUser = listBox1.SelectedItem.ToString().Split(' ');
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (User user in db.UserSet)
+                selectedUser = listBox1.SelectedItem.ToString().Split(' ');
+                using (UserContainer db = new UserContainer())
                 {
-
-                    // selectedUser[0] - login | selectedUser[1] - email
-                    if (user.Login == selectedUser[0] && user.Email == selectedUser[1])
+                    foreach (User user in db.UserSet)
                     {
 
-                        db.BonusSet.Remove(user.Bonus);
-                        db.UserSet.Remove(user);
-                        textBoxLogin.Text = "";
-                        BlockButtons();
-                        MessageBox.Show("Юзер удален");
-                        break;
+                        // selectedUser[0] - login | selectedUser[1] - email
+                        if (user.Login == selectedUser[0] && user.Email == selectedUser[1])
+                        {
+
+                            db.BonusSet.Remove(user.Bonus);
+                            db.UserSet.Remove(user);
+                            textBoxLogin.Text = "";
+                            BlockButtons();
+                            MessageBox.Show("Юзер удален");
+                            break;
+                        }
                     }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("При удалении произошла ошибка");
             }
         }
 

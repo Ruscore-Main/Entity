@@ -43,28 +43,36 @@ namespace labaEntity
         // Добавление товара
         private void button1_Click(object sender, EventArgs e)
         {
-            using (UserContainer db = new UserContainer())
+            try
             {
-                Provider selectedProvider = null;
-                foreach (Provider provider in db.ProviderSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (provider.NameProvider == listBoxProvider.SelectedItem.ToString())
+                    Provider selectedProvider = null;
+                    foreach (Provider provider in db.ProviderSet)
                     {
-                        selectedProvider = provider;
-                        break;
+                        if (provider.NameProvider == listBoxProvider.SelectedItem.ToString())
+                        {
+                            selectedProvider = provider;
+                            break;
+                        }
                     }
+                    product product = new product()
+                    {
+                        Name = textBoxName.Text,
+                        Price = Convert.ToInt32(textBoxPrice.Text),
+                        PhotoPath = this.imageBytes,
+                        ProviderId = selectedProvider.Id
+                    };
+                    db.productSet.Add(product);
+                    db.SaveChanges();
                 }
-                product product = new product()
-                {
-                    Name = textBoxName.Text,
-                    Price = Convert.ToInt32(textBoxPrice.Text),
-                    PhotoPath = this.imageBytes,
-                    ProviderId = selectedProvider.Id
-                };
-                db.productSet.Add(product);
-                db.SaveChanges();
+                this.Close();
             }
-            this.Close();
+            catch
+            {
+                MessageBox.Show("Возникла ошибка, возможно, поля заполнены неправильно");
+            }
+            
         }
 
         private void AddProductForm_Load(object sender, EventArgs e)

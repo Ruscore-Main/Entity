@@ -33,22 +33,29 @@ namespace labaEntity
         // Удаление товара
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            selectedProduct = listBox1.SelectedItem.ToString().Split(' ')[0];
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (product product in db.productSet)
+                selectedProduct = listBox1.SelectedItem.ToString().Split(' ')[0];
+                using (UserContainer db = new UserContainer())
                 {
-                    if (product.Id == Convert.ToInt32(selectedProduct))
+                    foreach (product product in db.productSet)
                     {
+                        if (product.Id == Convert.ToInt32(selectedProduct))
+                        {
 
-                        db.productSet.Remove(product);
-                        textBoxLogin.Text = "";
-                        BlockButtons();
-                        MessageBox.Show("Пользователь удален");
-                        break;
+                            db.productSet.Remove(product);
+                            textBoxLogin.Text = "";
+                            BlockButtons();
+                            MessageBox.Show("Пользователь удален");
+                            break;
+                        }
                     }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("При удалении произошла ошибка");
             }
         }
 
@@ -84,19 +91,27 @@ namespace labaEntity
         {
             selectedProduct = listBox1.SelectedItem.ToString().Split(' ')[0];
             product currentProduct = null;
-            using (UserContainer db = new UserContainer())
+            try
             {
-                foreach (product product in db.productSet)
+                using (UserContainer db = new UserContainer())
                 {
-                    if (product.Id == Convert.ToInt32(selectedProduct))
+                    foreach (product product in db.productSet)
                     {
-                        currentProduct = product;
-                        textBoxLogin.Text = "";
-                        BlockButtons();
-                        break;
+                        if (product.Id == Convert.ToInt32(selectedProduct))
+                        {
+                            currentProduct = product;
+                            textBoxLogin.Text = "";
+                            BlockButtons();
+                            break;
+                        }
                     }
                 }
             }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка, возможно, не все поля были правильно заполнены");
+            }
+            
             ChangeProductForm changeProductForm = new ChangeProductForm();
             changeProductForm.deleteOrChangeProductForm = this;
             changeProductForm.currentProduct = currentProduct;

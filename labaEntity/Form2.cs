@@ -17,6 +17,19 @@ namespace labaEntity
         public AdminForm adminForm;
         public bool isAdmin = false;
         public bool openedWithAdmin = false;
+        public bool FindEmail(string email) {
+            using (UserContainer db = new UserContainer())
+            {
+                foreach (User user in db.UserSet)
+                {
+                    if (user.Email == email)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public Form2()
         {
             InitializeComponent();
@@ -32,6 +45,11 @@ namespace labaEntity
             using (UserContainer db = new UserContainer())
             {
                 User user = null;
+                if (FindEmail(textBoxEmail.Text)) {
+                    MessageBox.Show("Пользователь с такой почтой уже существует");
+                    return;
+                }
+                
                 if (isAdmin)
                 {
                     Bonus bonus = new Bonus() { AmountBonus = "0" };

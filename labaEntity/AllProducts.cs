@@ -35,27 +35,33 @@ namespace labaEntity
             void BuyButton_Click(object sender, EventArgs e)
             {
                 // добавление в корзину
-                using (UserContainer db = new UserContainer())
+                try
                 {
-                    foreach (product product in db.productSet)
+                    using (UserContainer db = new UserContainer())
                     {
-                        if (product.Id == this.productId)
+                        foreach (product product in db.productSet)
                         {
-                            foreach (User user in db.UserSet)
+                            if (product.Id == this.productId)
                             {
-                                if (user.Id == this.currentUser.Id)
+                                foreach (User user in db.UserSet)
                                 {
-                                    user.basket.Add(product);
-                                    userForm.basketSum += product.Price;
-                                    break;
+                                    if (user.Id == this.currentUser.Id)
+                                    {
+                                        user.basket.Add(product);
+                                        userForm.basketSum += product.Price;
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
+                        }
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
                 }
-                MessageBox.Show($"{this.productId}");
+                catch
+                {
+                    MessageBox.Show("При добавлении товара в корзину возникла ошибка");
+                }
             }
         }
         public AllProducts()

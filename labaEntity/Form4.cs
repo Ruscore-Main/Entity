@@ -40,7 +40,7 @@ namespace labaEntity
             {
                 foreach (User user in db.UserSet)
                 {
-                    if (user.Login == currentUser.Login && user.Password == currentUser.Password)
+                    if (user.Id == currentUser.Id)
                     {
                         BonusForm bonusForm = new BonusForm();
                         bonusForm.form4 = this;
