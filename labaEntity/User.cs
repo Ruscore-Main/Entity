@@ -11,7 +11,8 @@ namespace labaEntity
 {
     using System;
     using System.Collections.Generic;
-    
+
+    [Serializable]
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

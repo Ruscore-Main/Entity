@@ -77,3 +77,5 @@ C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.csproj.Core
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.csproj.CopyComplete
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.exe
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.pdb
+C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\bin\Debug\MyLib.dll
+C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\bin\Debug\MyLib.pdb

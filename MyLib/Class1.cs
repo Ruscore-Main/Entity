@@ -47,16 +47,16 @@ namespace MyLib
             }
         }
     }    [Serializable]
-4 public class Message
-5 {
-6 public byte[] Data { get; set; }
-7 }
-8[Serializable]
-9 public class ComplexMessage
-10 {
-    11 public Message First { get; set; }
-12 public Message Second { get; set; }
-13 public int NumberStatus { get; set; }
-14 }
+    public class Message
+    {
+        public byte[] Data { get; set; }
+    }
+    [Serializable]
+    public class ComplexMessage
+    {
+        public Message First { get; set; }
+        public Message Second { get; set; }
+        public int NumberStatus { get; set; }
+    }
 
 }

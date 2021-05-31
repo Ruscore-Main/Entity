@@ -1,4 +1,5 @@
-﻿using MyLib;
+﻿using labaEntity;
+using MyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,79 +38,54 @@ namespace SERVER_LABA
                         Stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                     }
                     while (Stream.DataAvailable);
-                    Student student;
-                    Professor professor;
+                    Bonus bonus;
                     User user;
                     MyLib.ComplexMessage complexMessage = new ComplexMessage();
                     MyLib.Message message = new MyLib.Message();
                     message.Data = myReadBuffer;
                     complexMessage = (ComplexMessage)
                     SerializeAndDeserialize.Deserialize(message);
+                    // Регистрация
                     if (complexMessage.NumberStatus == 0)
                     {
 
                         try
                         {
-                            student = (Student)SerializeAndDeserialize.Deserialize(complexMessage.First);
+                            bonus = (Bonus)SerializeAndDeserialize.Deserialize(complexMessage.First);
                         }
                         catch
                         {
-                            student = null;
-                        }
-                        try
-                        {
-                            professor = (Professor)SerializeAndDeserialize.Deserialize(complexMessage.First);
-                        }
-                        catch
-                        {
-                            professor = null;
+                            bonus = null;
                         }
                         user = (User)SerializeAndDeserialize.Deserialize(complexMessage.Second);
 
-                        using (EntityModelContainer db = new EntityModelContainer())
+                        using (UserContainer db = new UserContainer())
                         {
                             db.UserSet.Add(user);
                             db.SaveChanges();
                         }
                     }
+                    // Авторизация
                     else if (complexMessage.NumberStatus == 1)
                     {
-                        using (EntityModelContainer db = new EntityModelContainer())
+                        using (UserContainer db = new UserContainer())
                         {
                             byte[] responseData;
                             for (int i = 0; i < db.UserSet.ToList().Count; i++)
                             {
                                 if (db.UserSet.ToList()[i].Login == Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.First)) && db.UserSet.ToList()[i].Password ==
-                                Convert.ToString(SerializeAndDeserialize.
-
-                                Deserialize(complexMessage.Second)))
+                                Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.Second)))
                                 {
                                     User user1 = db.UserSet.ToList()[i];
                                     User user2 = new User() { Login = user1.Login, Password = user1.Password, Role = user1.Role };
                                     m1 = SerializeAndDeserialize.Serialize(user2);
-                                    if (db.UserSet.ToList()[i].Role == "Студент")
+                                    Bonus bonus1 = db.UserSet.ToList()[i].Bonus;
+                                    Bonus bonus2 = new Bonus()
                                     {
-                                        Student student1 = db.UserSet.ToList()[i].Student;
-                                        Student student2 = new Student()
-                                        {
-                                            Name =
-                                        student1.Name,
-                                            NumberGroup = student1.NumberGroup,
-                                            PersonalData = student1.PersonalData,
-                                            Photo = student1.Photo,
-                                            Specialty = student1.Specialty
-                                        };
-                                        m2 = SerializeAndDeserialize.Serialize(student2);
-                                    }
+                                        AmountBonus = "0"
+                                    };
+                                    m2 = SerializeAndDeserialize.Serialize(bonus2);
 
-                                    else if (db.UserSet.ToList()[i].Role == "Преподаватель")
-                                    {
-                                        Professor professor1 =
-                                        db.UserSet.ToList()[i].Professor;
-                                        Professor professor2 = professor1;
-                                        m2 =
-                                        SerializeAndDeserialize.Serialize(professor1);
-                                    }
                                     cm.First = m1;
                                     cm.Second = m2;
                                     cm.NumberStatus = 2;
@@ -124,7 +100,7 @@ namespace SERVER_LABA
 
                             responseData = m.Data;
                             Stream.Write(responseData, 0, responseData.Length);
-                            label:
+                        label:
                             responseData = null;
                         }
                     }
@@ -133,3 +109,4 @@ namespace SERVER_LABA
         }
 
     }
+}

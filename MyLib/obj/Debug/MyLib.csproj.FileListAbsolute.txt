@@ -1,0 +1,5 @@
+C:\Users\Ruslan\Desktop\LABA8\Entity\MyLib\bin\Debug\MyLib.dll
+C:\Users\Ruslan\Desktop\LABA8\Entity\MyLib\bin\Debug\MyLib.pdb
+C:\Users\Ruslan\Desktop\LABA8\Entity\MyLib\obj\Debug\MyLib.csproj.CoreCompileInputs.cache
+C:\Users\Ruslan\Desktop\LABA8\Entity\MyLib\obj\Debug\MyLib.dll
+C:\Users\Ruslan\Desktop\LABA8\Entity\MyLib\obj\Debug\MyLib.pdb

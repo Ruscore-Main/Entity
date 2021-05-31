@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MyLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,11 @@ namespace labaEntity
         public AdminForm adminForm;
         public bool isAdmin = false;
         public bool openedWithAdmin = false;
+        private TcpClient client = new TcpClient("127.0.0.1", 8888);
+        private Byte[] data;
+        private NetworkStream stream;
+        private MyLib.Message m1, m2, m;
+        private ComplexMessage cm = new ComplexMessage();
         public bool FindEmail(string email) {
             using (UserContainer db = new UserContainer())
             {
@@ -33,7 +40,22 @@ namespace labaEntity
         public Form2()
         {
             InitializeComponent();
+            this.form1 = form1;
+            this.stream = client.GetStream();
         }
+
+
+        private void InitComponentMessage(object first, object second, int status)
+        {
+            this.m1 = SerializeAndDeserialize.Serialize(first);
+            this.m2 = SerializeAndDeserialize.Serialize(second);
+            cm.First = m1;
+            cm.Second = m2;
+            cm.NumberStatus = status;
+            m = SerializeAndDeserialize.Serialize(cm);
+            this.data = m.Data;
+        }
+
 
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -49,28 +71,25 @@ namespace labaEntity
                     MessageBox.Show("Пользователь с такой почтой уже существует");
                     return;
                 }
-                
+                Bonus bonus = new Bonus() { AmountBonus = "0" };
                 if (isAdmin)
                 {
-                    Bonus bonus = new Bonus() { AmountBonus = "0" };
                     user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "Admin", Bonus = bonus, Balance = 0 };
                     adminForm.Show();
                 }
                 else if (openedWithAdmin)
                 {
-                    Bonus bonus = new Bonus() { AmountBonus = "0" };
                     user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User", Bonus = bonus, Balance = 0 };
                     adminForm.Show();
                 }
                 else
                 {
-                    Bonus bonus = new Bonus() { AmountBonus = "0" };
                     user = new User() { Login = textBoxLog.Text, Email = textBoxEmail.Text, Password = CryptoService.GetHashString(textBoxPass.Text), Role = "User", Bonus = bonus, Balance = 0 };
                     form1.Show();
                 }
-                db.UserSet.Add(user);
-                db.SaveChanges();
-                
+                this.InitComponentMessage(bonus, user, 0);
+                stream.Write(data, 0, data.Length);
+                stream.Flush();
             }
             
             this.Close();
