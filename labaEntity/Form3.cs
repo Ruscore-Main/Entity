@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,9 +19,15 @@ namespace labaEntity
         static string code = "";
         static MailAddress to;
         public Form1 form1;
+        TcpClient client = new TcpClient("127.0.0.1", 8888);
+        Byte[] data;
+        NetworkStream stream;
+        MyLib.Message m, m1, m2;
+        ComplexMessage cm = new ComplexMessage();
         public Form3()
         {
             InitializeComponent();
+            this.stream = client.GetStream();
         }
 
         private void makeCode ()
@@ -80,21 +88,41 @@ namespace labaEntity
 
         private void changePasButton_Click(object sender, EventArgs e)
         {
-            using (UserContainer db = new UserContainer())
+            this.m1 = SerializeAndDeserialize.Serialize(newPasTextBox.Text);
+            this.m2 = SerializeAndDeserialize.Serialize(textBoxEmail.Text);
+            this.cm.First = this.m1;
+            this.cm.Second = this.m2;
+            this.cm.NumberStatus = 2;
+            this.m = SerializeAndDeserialize.Serialize(this.cm);
+            data = this.m.Data;
+            stream.Write(data, 0, data.Length);
+            if (stream.CanRead)
             {
-                foreach (User user in db.UserSet)
+                int numberOfBytesRead = 0;
+                byte[] readingData = new byte[6297630];
+                do
                 {
-                    if (user.Email == to.Address)
-                    {
-                        user.Password = CryptoService.GetHashString(newPasTextBox.Text);
-                        MessageBox.Show("Пароль успешно изменён");
-                        break;
-                    }
+                    numberOfBytesRead = stream.Read(readingData, 0, readingData.Length);
+
+                } while (stream.DataAvailable);
+                this.m.Data = readingData;
+                this.cm = (ComplexMessage)SerializeAndDeserialize.Deserialize(m);
+
+                // Успешная смена пароля
+                if (cm.NumberStatus == 2)
+                {
+                    MessageBox.Show("Пароль успешно изменён");
+                    form1.Show();
+                    this.Hide();
                 }
-                db.SaveChanges();
-                form1.Show();
-                this.Hide();
+
+                // Ошибка смены пароля
+                else if (cm.NumberStatus == 3)
+                {
+                    MessageBox.Show("Произошла ошибка при смене пароля");
+                }
             }
+            
         }
 
         private void Form3_FormClosing(object sender, FormClosingEventArgs e)

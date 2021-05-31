@@ -27,86 +27,127 @@ namespace SERVER_LABA
         }
         public void Process()
         {
-
-            while (true)
+            try
             {
-                if (Stream.CanRead)
+                while (true)
                 {
-                    byte[] myReadBuffer = new byte[6297630];
-                    do
+                    if (Stream.CanRead)
                     {
-                        Stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-                    }
-                    while (Stream.DataAvailable);
-                    Bonus bonus;
-                    User user;
-                    MyLib.ComplexMessage complexMessage = new ComplexMessage();
-                    MyLib.Message message = new MyLib.Message();
-                    message.Data = myReadBuffer;
-                    complexMessage = (ComplexMessage)
-                    SerializeAndDeserialize.Deserialize(message);
-                    // Регистрация
-                    if (complexMessage.NumberStatus == 0)
-                    {
+                        byte[] myReadBuffer = new byte[6297630];
+                        do
+                        {
+                            Stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+                        }
+                        while (Stream.DataAvailable);
+                        Bonus bonus;
+                        User user;
+                        MyLib.ComplexMessage complexMessage = new ComplexMessage();
+                        MyLib.Message message = new MyLib.Message();
+                        message.Data = myReadBuffer;
+                        complexMessage = (ComplexMessage)SerializeAndDeserialize.Deserialize(message);
+                        // Регистрация
+                        if (complexMessage.NumberStatus == 0)
+                        {
 
-                        try
-                        {
-                            bonus = (Bonus)SerializeAndDeserialize.Deserialize(complexMessage.First);
-                        }
-                        catch
-                        {
-                            bonus = null;
-                        }
-                        user = (User)SerializeAndDeserialize.Deserialize(complexMessage.Second);
-
-                        using (UserContainer db = new UserContainer())
-                        {
-                            db.UserSet.Add(user);
-                            db.SaveChanges();
-                        }
-                    }
-                    // Авторизация
-                    else if (complexMessage.NumberStatus == 1)
-                    {
-                        using (UserContainer db = new UserContainer())
-                        {
-                            byte[] responseData;
-                            for (int i = 0; i < db.UserSet.ToList().Count; i++)
+                            try
                             {
-                                if (db.UserSet.ToList()[i].Login == Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.First)) && db.UserSet.ToList()[i].Password ==
-                                Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.Second)))
-                                {
-                                    User user1 = db.UserSet.ToList()[i];
-                                    User user2 = new User() { Login = user1.Login, Password = user1.Password, Role = user1.Role };
-                                    m1 = SerializeAndDeserialize.Serialize(user2);
-                                    Bonus bonus1 = db.UserSet.ToList()[i].Bonus;
-                                    Bonus bonus2 = new Bonus()
-                                    {
-                                        AmountBonus = "0"
-                                    };
-                                    m2 = SerializeAndDeserialize.Serialize(bonus2);
-
-                                    cm.First = m1;
-                                    cm.Second = m2;
-                                    cm.NumberStatus = 2;
-                                    m = SerializeAndDeserialize.Serialize(cm);
-                                    responseData = m.Data;
-                                    Stream.Write(responseData, 0, responseData.Length);
-                                    goto label;
-                                }
+                                bonus = (Bonus)SerializeAndDeserialize.Deserialize(complexMessage.First);
                             }
-                            cm.NumberStatus = 3;
-                            m = SerializeAndDeserialize.Serialize(cm);
+                            catch
+                            {
+                                bonus = null;
+                            }
+                            user = (User)SerializeAndDeserialize.Deserialize(complexMessage.Second);
 
-                            responseData = m.Data;
-                            Stream.Write(responseData, 0, responseData.Length);
-                        label:
-                            responseData = null;
+                            using (UserContainer db = new UserContainer())
+                            {
+                                db.UserSet.Add(user);
+                                db.SaveChanges();
+                            }
+                        }
+                        // Авторизация
+                        else if (complexMessage.NumberStatus == 1)
+                        {
+                            using (UserContainer db = new UserContainer())
+                            {
+                                byte[] responseData;
+                                for (int i = 0; i < db.UserSet.ToList().Count; i++)
+                                {
+
+                                    if (db.UserSet.ToList()[i].Login == Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.First)) && db.UserSet.ToList()[i].Password == CryptoService.GetHashString(Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.Second))))
+                                    {
+                                        User user1 = db.UserSet.ToList()[i];
+                                        User user2 = new User() { Login = user1.Login, Password = user1.Password, Role = user1.Role };
+                                        m1 = SerializeAndDeserialize.Serialize(user2);
+                                        Bonus bonus1 = db.UserSet.ToList()[i].Bonus;
+                                        Bonus bonus2 = new Bonus()
+                                        {
+                                            AmountBonus = "0"
+                                        };
+                                        m2 = SerializeAndDeserialize.Serialize(bonus2);
+
+                                        cm.First = m1;
+                                        cm.Second = m2;
+                                        cm.NumberStatus = 2;
+                                        m = SerializeAndDeserialize.Serialize(cm);
+                                        responseData = m.Data;
+                                        Stream.Write(responseData, 0, responseData.Length);
+                                        goto label;
+                                    }
+                                }
+                                cm.NumberStatus = 3;
+                                m = SerializeAndDeserialize.Serialize(cm);
+
+                                responseData = m.Data;
+                                Stream.Write(responseData, 0, responseData.Length);
+                                label:
+                                responseData = null;
+                            }
+                        }
+                        // Восстановление пароля
+                        else if (complexMessage.NumberStatus == 2)
+                        {
+
+                            // First - новый пароль, Second - почта
+                            string newPassword = Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.First));
+                            using (UserContainer db = new UserContainer())
+                            {
+                                byte[] responseData;
+                                foreach (User usr in db.UserSet)
+                                {
+                                    if (usr.Email == Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.Second)))
+                                    { 
+                                        usr.Password = CryptoService.GetHashString(newPassword);
+                                        cm.First = m1;
+                                        cm.Second = m2;
+                                        cm.NumberStatus = 2;
+                                        m = SerializeAndDeserialize.Serialize(cm);
+                                        responseData = m.Data;
+                                        Stream.Write(responseData, 0, responseData.Length);
+                                        goto labelSucess;
+                                    }
+                                }
+                                cm.NumberStatus = 3;
+                                m = SerializeAndDeserialize.Serialize(cm);
+
+                                responseData = m.Data;
+                                Stream.Write(responseData, 0, responseData.Length);
+                                labelSucess:
+                                responseData = null;
+                                db.SaveChanges();
+
+                            }
                         }
                     }
                 }
             }
+            catch
+            {
+
+            }
+            
         }
+        
 
     }
 }

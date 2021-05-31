@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace labaEntity
 {
-    class CryptoService
+    public class CryptoService
     {
         public static string GetHashString(string s)
         {
@@ -23,5 +23,6 @@ namespace labaEntity
             return hash;
 
         }
+
     }
 }
