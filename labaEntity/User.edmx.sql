@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2021 22:53:29
--- Generated from EDMX file: C:\Users\oobit\source\repos\labaEntity\labaEntity\User.edmx
+-- Date Created: 05/31/2021 20:49:09
+-- Generated from EDMX file: C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\User.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\OOBIT\DOCUMENTS\LABAEF.MDF];
+USE [C:\USERS\RUSLAN\DOCUMENTS\LABA8.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,22 +17,22 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_BonusUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BonusSet] DROP CONSTRAINT [FK_BonusUser];
+GO
 IF OBJECT_ID(N'[dbo].[FK_productProvider]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[productSet] DROP CONSTRAINT [FK_productProvider];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Userproduct]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[productSet] DROP CONSTRAINT [FK_Userproduct];
 GO
-IF OBJECT_ID(N'[dbo].[FK_BonusUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[BonusSet] DROP CONSTRAINT [FK_BonusUser];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UserSet];
+IF OBJECT_ID(N'[dbo].[BonusSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BonusSet];
 GO
 IF OBJECT_ID(N'[dbo].[productSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[productSet];
@@ -40,8 +40,8 @@ GO
 IF OBJECT_ID(N'[dbo].[ProviderSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProviderSet];
 GO
-IF OBJECT_ID(N'[dbo].[BonusSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[BonusSet];
+IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserSet];
 GO
 
 -- --------------------------------------------------
@@ -64,7 +64,7 @@ CREATE TABLE [dbo].[productSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Price] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [PhotoPath] nvarchar(max)  NOT NULL,
+    [PhotoPath] varbinary(max)  NOT NULL,
     [ProviderId] int  NOT NULL,
     [Userproduct_product_Id] int  NULL
 );
