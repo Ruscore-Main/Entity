@@ -46,7 +46,9 @@ namespace MyLib
                 return formatter.Deserialize(memoryStream);
             }
         }
-    }    [Serializable]
+    }
+
+    [Serializable]
     public class Message
     {
         public byte[] Data { get; set; }
@@ -57,6 +59,8 @@ namespace MyLib
         public Message First { get; set; }
         public Message Second { get; set; }
         public int NumberStatus { get; set; }
-    }
+    }
+
+
 
 }

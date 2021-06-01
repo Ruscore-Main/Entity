@@ -79,3 +79,7 @@ C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.exe
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\obj\Debug\labaEntity.pdb
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\bin\Debug\MyLib.dll
 C:\Users\Ruslan\Desktop\LABA8\Entity\labaEntity\bin\Debug\MyLib.pdb
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\MyLib.dll
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\MyLib.pdb
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\Xceed.Document.NET.dll
+C:\Users\oobit\source\repos\labaEntity\labaEntity\bin\Debug\Xceed.Words.NET.dll

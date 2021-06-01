@@ -20,10 +20,22 @@ namespace labaEntity
         public Form4()
         {
             InitializeComponent();
+            
         }
 
         private void Form4_Load(object sender, EventArgs e)
         {
+            using (UserContainer db = new UserContainer())
+            {
+                foreach (User user in db.UserSet)
+                {
+                    if (user.Id == currentUser.Id)
+                    {
+                        currentUser = user;
+                        break;
+                    }
+                }
+            }
             labelBalance.Text = $"Баланс: {currentUser.Balance}";
         }
 

@@ -27,8 +27,6 @@ namespace SERVER_LABA
         }
         public void Process()
         {
-            try
-            {
                 while (true)
                 {
                     if (Stream.CanRead)
@@ -57,11 +55,13 @@ namespace SERVER_LABA
                             {
                                 bonus = null;
                             }
-                            user = (User)SerializeAndDeserialize.Deserialize(complexMessage.Second);
 
                             using (UserContainer db = new UserContainer())
                             {
-                                db.UserSet.Add(user);
+                                user = (User)SerializeAndDeserialize.Deserialize(complexMessage.Second);
+                                Bonus newBonus = new Bonus() { AmountBonus = bonus.AmountBonus };
+                                User newUser = new User() { Login = user.Login, Email = user.Email, Balance = user.Balance, Password = user.Password, Role = user.Role, Bonus = newBonus };
+                                db.UserSet.Add(newUser);
                                 db.SaveChanges();
                             }
                         }
@@ -76,14 +76,16 @@ namespace SERVER_LABA
 
                                     if (db.UserSet.ToList()[i].Login == Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.First)) && db.UserSet.ToList()[i].Password == CryptoService.GetHashString(Convert.ToString(SerializeAndDeserialize.Deserialize(complexMessage.Second))))
                                     {
-                                        User user1 = db.UserSet.ToList()[i];
-                                        User user2 = new User() { Login = user1.Login, Password = user1.Password, Role = user1.Role };
-                                        m1 = SerializeAndDeserialize.Serialize(user2);
                                         Bonus bonus1 = db.UserSet.ToList()[i].Bonus;
                                         Bonus bonus2 = new Bonus()
                                         {
-                                            AmountBonus = "0"
+                                            Id = bonus1.Id,
+                                            AmountBonus = bonus1.AmountBonus
                                         };
+                                        User user1 = db.UserSet.ToList()[i];
+                                        User user2 = new User() { Id=user1.Id, Login = user1.Login, Password = user1.Password, Role = user1.Role, Balance = user1.Balance, basket = user1.basket, Email = user1.Email, Bonus = bonus2 };
+                                        m1 = SerializeAndDeserialize.Serialize(user2);
+                                        
                                         m2 = SerializeAndDeserialize.Serialize(bonus2);
 
                                         cm.First = m1;
@@ -140,11 +142,6 @@ namespace SERVER_LABA
                         }
                     }
                 }
-            }
-            catch
-            {
-
-            }
             
         }
         
