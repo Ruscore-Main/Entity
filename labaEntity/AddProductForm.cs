@@ -47,15 +47,7 @@ namespace labaEntity
             {
                 using (UserContainer db = new UserContainer())
                 {
-                    Provider selectedProvider = null;
-                    foreach (Provider provider in db.ProviderSet)
-                    {
-                        if (provider.NameProvider == listBoxProvider.SelectedItem.ToString())
-                        {
-                            selectedProvider = provider;
-                            break;
-                        }
-                    }
+                    Provider selectedProvider = db.ProviderSet.FirstOrDefault(provider => provider.NameProvider == listBoxProvider.SelectedItem.ToString());
                     product product = new product()
                     {
                         Name = textBoxName.Text,

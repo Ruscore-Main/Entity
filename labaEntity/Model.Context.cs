@@ -29,5 +29,6 @@ namespace labaEntity
         public virtual DbSet<product> productSet { get; set; }
         public virtual DbSet<Provider> ProviderSet { get; set; }
         public virtual DbSet<Bonus> BonusSet { get; set; }
+        public virtual DbSet<BasketItem> BasketItemSet { get; set; }
     }
 }

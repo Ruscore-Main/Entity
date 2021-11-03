@@ -40,15 +40,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="Userproduct" TypeName="User.Userproduct" StoreEntitySet="productSet">
-      <EndProperty Name="User">
-        <ScalarProperty Name="Id" ColumnName="Userproduct_product_Id" />
-      </EndProperty>
-      <EndProperty Name="product">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Userproduct_product_Id" IsNull="false" />
-    </AssociationSetMapping>
+    <EntitySetMapping Name="BasketItemSet">
+      <EntityTypeMapping TypeName="IsTypeOf(User.BasketItem)">
+        <MappingFragment StoreEntitySet="BasketItemSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="BonusUser" TypeName="User.BonusUser" StoreEntitySet="BonusSet">
       <EndProperty Name="User">
         <ScalarProperty Name="Id" ColumnName="User_Id" />

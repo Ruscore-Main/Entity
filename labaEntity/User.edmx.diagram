@@ -4,14 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="92ed686eb449489696bcfc104dba02a4" Name="Diagram1" ZoomLevel="73" >
-        <EntityTypeShape EntityType="User.User" Width="1.5" PointX="6.125" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="User.product" Width="1.5" PointX="8.875" PointY="2" />
-        <EntityTypeShape EntityType="User.Provider" Width="1.5" PointX="11.25" PointY="2.25" />
+      <Diagram DiagramId="92ed686eb449489696bcfc104dba02a4" Name="Diagram1" ZoomLevel="106" >
+        <EntityTypeShape EntityType="User.User" Width="1.5" PointX="5.125" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="User.product" Width="1.5" PointX="10.375" PointY="2.25" />
+        <EntityTypeShape EntityType="User.Provider" Width="1.5" PointX="12.75" PointY="2.5" />
         <AssociationConnector Association="User.productProvider" />
-        <AssociationConnector Association="User.Userproduct" />
-        <EntityTypeShape EntityType="User.Bonus" Width="1.5" PointX="3.875" PointY="2.5" />
+        <EntityTypeShape EntityType="User.Bonus" Width="1.5" PointX="2.875" PointY="2.75" />
         <AssociationConnector Association="User.BonusUser" />
+        <EntityTypeShape EntityType="User.BasketItem" Width="1.5" PointX="8" PointY="2.25" />
+        <AssociationConnector Association="User.UserBasketItem" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

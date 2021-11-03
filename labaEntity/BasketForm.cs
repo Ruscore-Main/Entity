@@ -28,10 +28,10 @@ namespace labaEntity
                 {
                     if (user.Id == currentUser.Id)
                     {
-                        foreach (product product in user.basket)
+                        foreach (BasketItem basketItem in user.BasketItems)
                         {
-                            listBox1.Items.Add(product.Name);
-                            sum += product.Price;
+                            listBox1.Items.Add($"{basketItem.Name} - {basketItem.Count}");
+                            sum += basketItem.Price*basketItem.Count;
                         }
                         break;
                     }
@@ -62,18 +62,18 @@ namespace labaEntity
                             if (user.Balance >= sum)
                             {
                                 user.Balance -= sum - int.Parse(user.Bonus.AmountBonus);
-                                foreach (product product in user.basket)
+                                foreach (BasketItem basketItem in user.BasketItems)
                                 {
-                                    listBox1.Items.Remove(product);
+                                    listBox1.Items.Remove(basketItem);
                                 }
                                 string date = DateTime.Now.ToString();
                                 user.Bonus.AmountBonus = Convert.ToString(Math.Floor(Convert.ToDouble(sum / 4)));
                                 MessageBox.Show($"Товар оплачен {date}\nВаш текущий баланс: {user.Balance}\nВаш текущий баланс бонусов: {user.Bonus.AmountBonus}", "ЧЕК");
-                                user.basket.Clear();
+                                user.BasketItems.Clear();
                                 sum = 0;
                                 listBox1.Items.Clear();
                                 labelSum.Text = $"Сумма: {sum}";
-
+                                userForm.label.Text = $"{user.Balance}";
                                 break;
                             }
                             else
@@ -105,12 +105,21 @@ namespace labaEntity
                     {
                         if (user.Id == currentUser.Id)
                         {
-                            foreach (product product in db.productSet)
+                            foreach (BasketItem basketItem in db.BasketItemSet)
                             {
-                                if (product.Name == Convert.ToString(listBox1.SelectedItem))
+                                if ($"{basketItem.Name} - {basketItem.Count}" == Convert.ToString(listBox1.SelectedItem))
                                 {
-                                    user.basket.Remove(product);
-                                    sum -= product.Price;
+                                    if (basketItem.Count == 1) {
+                                        user.BasketItems.Remove(basketItem);
+                                        sum -= basketItem.Price;
+                                        listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+                                    }
+                                    else
+                                    {
+                                        basketItem.Count -= 1;
+                                        sum -= basketItem.Price;
+                                        listBox1.Items[listBox1.SelectedIndex] = $"{basketItem.Name} - {basketItem.Count}";
+                                    }
                                     break;
                                 }
                             }
@@ -118,7 +127,6 @@ namespace labaEntity
                     }
                     labelSum.Text = $"Сумма: {sum}";
                     MessageBox.Show($"Товар {listBox1.SelectedItem} был удален");
-                    listBox1.Items.RemoveAt(listBox1.SelectedIndex);
                     db.SaveChanges();
                 }
             }

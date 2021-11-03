@@ -10,17 +10,18 @@
     <EntitySet Name="productSet" EntityType="User.Store.productSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProviderSet" EntityType="User.Store.ProviderSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="BonusSet" EntityType="User.Store.BonusSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BasketItemSet" EntityType="User.Store.BasketItemSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="productProvider" Association="User.Store.productProvider">
       <End Role="product" EntitySet="productSet" />
       <End Role="Provider" EntitySet="ProviderSet" />
     </AssociationSet>
-    <AssociationSet Name="Userproduct" Association="User.Store.Userproduct">
-      <End Role="User" EntitySet="UserSet" />
-      <End Role="product" EntitySet="productSet" />
-    </AssociationSet>
     <AssociationSet Name="BonusUser" Association="User.Store.BonusUser">
       <End Role="Bonus" EntitySet="BonusSet" />
       <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserBasketItem" Association="User.Store.UserBasketItem">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="BasketItem" EntitySet="BasketItemSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="UserSet">
@@ -43,7 +44,6 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="PhotoPath" Type="varbinary(max)" Nullable="false" />
     <Property Name="ProviderId" Type="int" Nullable="false" />
-    <Property Name="Userproduct_product_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="ProviderSet">
     <Key>
@@ -60,6 +60,16 @@
     <Property Name="AmountBonus" Type="nvarchar(max)" Nullable="false" />
     <Property Name="User_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="BasketItemSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Count" Type="smallint" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="true" />
+  </EntityType>
   <Association Name="productProvider">
     <End Role="product" Type="User.Store.productSet" Multiplicity="*" />
     <End Role="Provider" Type="User.Store.ProviderSet" Multiplicity="1" />
@@ -69,18 +79,6 @@
       </Principal>
       <Dependent Role="product">
         <PropertyRef Name="ProviderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="Userproduct">
-    <End Role="User" Type="User.Store.UserSet" Multiplicity="0..1" />
-    <End Role="product" Type="User.Store.productSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="product">
-        <PropertyRef Name="Userproduct_product_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -96,6 +94,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="UserBasketItem">
+    <End Role="User" Type="User.Store.UserSet" Multiplicity="0..1" />
+    <End Role="BasketItem" Type="User.Store.BasketItemSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BasketItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -108,14 +118,15 @@
             <End Role="product" EntitySet="productSet" />
             <End Role="Provider" EntitySet="ProviderSet" />
           </AssociationSet>
-          <AssociationSet Name="Userproduct" Association="User.Userproduct">
-            <End Role="User" EntitySet="UserSet" />
-            <End Role="product" EntitySet="productSet" />
-          </AssociationSet>
           <EntitySet Name="BonusSet" EntityType="User.Bonus" />
           <AssociationSet Name="BonusUser" Association="User.BonusUser">
             <End Role="Bonus" EntitySet="BonusSet" />
             <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <EntitySet Name="BasketItemSet" EntityType="User.BasketItem" />
+          <AssociationSet Name="UserBasketItem" Association="User.UserBasketItem">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="BasketItem" EntitySet="BasketItemSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -128,8 +139,8 @@
           <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Balance" Type="Int32" Nullable="true" />
-          <NavigationProperty Name="basket" Relationship="User.Userproduct" FromRole="User" ToRole="product" />
           <NavigationProperty Name="Bonus" Relationship="User.BonusUser" FromRole="User" ToRole="Bonus" />
+          <NavigationProperty Name="BasketItems" Relationship="User.UserBasketItem" FromRole="User" ToRole="BasketItem" />
         </EntityType>
         <EntityType Name="product">
           <Key>
@@ -162,10 +173,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Userproduct">
-          <End Type="User.User" Role="User" Multiplicity="0..1" />
-          <End Type="User.product" Role="product" Multiplicity="*" />
-        </Association>
         <EntityType Name="Bonus">
           <Key>
             <PropertyRef Name="Id" />
@@ -177,6 +184,29 @@
         <Association Name="BonusUser">
           <End Type="User.Bonus" Role="Bonus" Multiplicity="0..1" />
           <End Type="User.User" Role="User" Multiplicity="1" />
+        </Association>
+        <EntityType Name="BasketItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="User.UserBasketItem" FromRole="BasketItem" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <Association Name="UserBasketItem">
+          <End Type="User.User" Role="User" Multiplicity="0..1" />
+          <End Type="User.BasketItem" Role="BasketItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BasketItem">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -223,15 +253,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="Userproduct" TypeName="User.Userproduct" StoreEntitySet="productSet">
-      <EndProperty Name="User">
-        <ScalarProperty Name="Id" ColumnName="Userproduct_product_Id" />
-      </EndProperty>
-      <EndProperty Name="product">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Userproduct_product_Id" IsNull="false" />
-    </AssociationSetMapping>
+    <EntitySetMapping Name="BasketItemSet">
+      <EntityTypeMapping TypeName="IsTypeOf(User.BasketItem)">
+        <MappingFragment StoreEntitySet="BasketItemSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="BonusUser" TypeName="User.BonusUser" StoreEntitySet="BonusSet">
       <EndProperty Name="User">
         <ScalarProperty Name="Id" ColumnName="User_Id" />

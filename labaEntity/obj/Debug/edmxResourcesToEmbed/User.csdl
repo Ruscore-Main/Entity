@@ -8,14 +8,15 @@
       <End Role="product" EntitySet="productSet" />
       <End Role="Provider" EntitySet="ProviderSet" />
     </AssociationSet>
-    <AssociationSet Name="Userproduct" Association="User.Userproduct">
-      <End Role="User" EntitySet="UserSet" />
-      <End Role="product" EntitySet="productSet" />
-    </AssociationSet>
     <EntitySet Name="BonusSet" EntityType="User.Bonus" />
     <AssociationSet Name="BonusUser" Association="User.BonusUser">
       <End Role="Bonus" EntitySet="BonusSet" />
       <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <EntitySet Name="BasketItemSet" EntityType="User.BasketItem" />
+    <AssociationSet Name="UserBasketItem" Association="User.UserBasketItem">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="BasketItem" EntitySet="BasketItemSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="User">
@@ -28,8 +29,8 @@
     <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Balance" Type="Int32" Nullable="true" />
-    <NavigationProperty Name="basket" Relationship="User.Userproduct" FromRole="User" ToRole="product" />
     <NavigationProperty Name="Bonus" Relationship="User.BonusUser" FromRole="User" ToRole="Bonus" />
+    <NavigationProperty Name="BasketItems" Relationship="User.UserBasketItem" FromRole="User" ToRole="BasketItem" />
   </EntityType>
   <EntityType Name="product">
     <Key>
@@ -62,10 +63,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="Userproduct">
-    <End Type="User.User" Role="User" Multiplicity="0..1" />
-    <End Type="User.product" Role="product" Multiplicity="*" />
-  </Association>
   <EntityType Name="Bonus">
     <Key>
       <PropertyRef Name="Id" />
@@ -77,5 +74,28 @@
   <Association Name="BonusUser">
     <End Type="User.Bonus" Role="Bonus" Multiplicity="0..1" />
     <End Type="User.User" Role="User" Multiplicity="1" />
+  </Association>
+  <EntityType Name="BasketItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="User.UserBasketItem" FromRole="BasketItem" ToRole="User" />
+    <Property Name="UserId" Type="Int32" Nullable="true" />
+  </EntityType>
+  <Association Name="UserBasketItem">
+    <End Type="User.User" Role="User" Multiplicity="0..1" />
+    <End Type="User.BasketItem" Role="BasketItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BasketItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>

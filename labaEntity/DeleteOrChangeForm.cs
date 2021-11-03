@@ -37,7 +37,7 @@ namespace labaEntity
 
                     foreach (User user in db.UserSet)
                     {
-                        if (user.Login.ToLower() == textBoxLogin.Text.ToLower())
+                        if (user.Login.ToLower() == textBoxLogin.Text.ToLower() && user.Role == "User")
                         {
                             listBox1.Items.Add($"{user.Login} {user.Email}");
                             finded = true;

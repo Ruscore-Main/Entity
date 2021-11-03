@@ -82,6 +82,9 @@
     <Compile Include="BasketForm.Designer.cs">
       <DependentUpon>BasketForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BasketItem.cs">
+      <DependentUpon>User.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bonus.cs">
       <DependentUpon>User.tt</DependentUpon>
     </Compile>

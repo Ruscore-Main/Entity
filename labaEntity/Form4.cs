@@ -16,6 +16,7 @@ namespace labaEntity
         public User currentUser;
         public Form1 form1;
         public int basketSum = 0;
+        public Label label;
 
         public Form4()
         {
@@ -24,6 +25,7 @@ namespace labaEntity
 
         private void Form4_Load(object sender, EventArgs e)
         {
+            label = labelBalance;
             labelBalance.Text = $"Баланс: {currentUser.Balance}";
         }
 
